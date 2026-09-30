@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8db6dc">
+  <title>Birthday Quest — A Little Storybook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Global birthday music. The first START click is used as the browser-safe user gesture that starts audio. -->
+  <audio id="birthdayMusic" preload="auto" loop></audio>
+
+  <div class="music-player" id="musicPlayer" aria-label="Birthday music player">
+    <button class="music-play" id="musicPlay" type="button" aria-label="Play or pause music">▶</button>
+    <div class="music-info">
+      <div class="music-title"><span class="music-note-symbol">♫</span> Birthday Song</div>
+      <input class="music-range" id="musicProgress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Music progress">
+      <div class="music-time"><span id="musicCurrent">0:00</span><span id="musicDuration">0:00</span></div>
+    </div>
+  </div>
+
+  <div class="sky-noise" aria-hidden="true"></div>
+  <div class="pixel-sparkles" id="pixelSparkles" aria-hidden="true"></div>
+
+  <div class="floating-decor" aria-hidden="true">
+    <img src="assets/gifs/sparkle.gif" class="float float-one" alt="">
+    <img src="assets/gifs/heart.gif" class="float float-two" alt="">
+    <img src="assets/gifs/star.gif" class="float float-three" alt="">
+    <img src="assets/gifs/bow.gif" class="float float-four" alt="">
+  </div>
+
+  <header class="topbar">
+    <button class="brand" id="homeButton" aria-label="Return to the beginning"><span>★</span> BIRTHDAY QUEST</button>
+    <div class="progress-wrap">
+      <div class="progress-label"><span id="progressText">01 / 04</span></div>
+      <div class="progress-track"><i id="progressFill"></i></div>
+    </div>
+    <button class="map-button" id="mapButton">☰ QUEST MAP</button>
+  </header>
+
+  <aside class="quest-map" id="questMap" aria-hidden="true">
+    <div class="map-card">
+      <button class="map-close" id="mapClose" aria-label="Close">×</button>
+      <img src="assets/gifs/star.gif" class="map-star" alt="">
+      <p>YOUR LITTLE ADVENTURE</p>
+      <h2>QUEST MAP</h2>
+      <button data-go="0">★ HOME</button>
+      <button data-go="3">♡ SCRAPBOOK</button>
+      <div class="map-divider"></div>
+      <button data-go="4">♫ MUSIC</button>
+      <button data-go="5">✉ LETTER</button>
+      <button data-go="6">♧ WISHES</button>
+      <button data-go="7">🎁 GIFT / QR</button>
+    </div>
+  </aside>
+
+  <main id="app">
+    <!-- INTRO -->
+    <section class="scene game-scene active" data-scene="0">
+      <div class="game-window hero-game">
+        <div class="window-bar"><span>♥ BIRTHDAY GAME</span><span>READY</span></div>
+        <div class="game-screen hero-screen">
+          <div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+          <div class="mountain mountain-one"></div><div class="mountain mountain-two"></div>
+          <div class="hero-title">
+            <p class="pixel-kicker">A SPECIAL LITTLE GAME FOR</p>
+            <h1><span>[V]</span><br>BIRTHDAY<br><em>QUEST!</em></h1>
+            <p class="hero-sub">★ ONE LITTLE ADVENTURE MADE JUST FOR YOU ★</p>
+            <button class="pixel-button yellow" data-next>START <b>▶</b></button>
+          </div>
+          <img src="assets/gifs/sparkle.gif" class="hero-gif hero-gif-left" alt="">
+          <img src="assets/gifs/star.gif" class="hero-gif hero-gif-right" alt="">
+          <div class="ground"></div>
+        </div>
+      </div>
+      <p class="caption">tap start when you're ready...</p>
+    </section>
+
+    <!-- JOY MODE -->
+    <section class="scene game-scene" data-scene="1">
+      <div class="game-window">
+        <div class="window-bar"><span>★ JOY MODE UNLOCKED</span><span>02 / 04</span></div>
+        <div class="game-screen joy-screen">
+          <img src="assets/gifs/heart.gif" class="scene-gif joy-heart" alt="">
+          <img src="assets/gifs/star.gif" class="scene-gif joy-star" alt="">
+          <div class="mode-title">JOY MODE UNLOCKED!</div>
+          <div class="xp">+200 HAPPINESS XP</div>
+          <div class="joy-content">
+            <div class="pixel-character"><span class="hair"></span><span class="face">•ᴗ•</span><span class="body"></span></div>
+            <div class="dialog">
+              <b>HEY, V!</b>
+              <p>Since it is your special day and all, I have a tiny adventure in store for you. Hope you enjoy it as much as I enjoyed making it for you!</p>
+              <p class="gold">★ The next chapter of your journey starts here.</p>
+              <button class="small-pixel" data-next>CONTINUE →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHARACTER -->
+    <section class="scene game-scene" data-scene="2">
+      <div class="game-window">
+        <div class="window-bar"><span>★ CHOOSE YOUR LITTLE HERO</span><span>03 / 04</span></div>
+        <div class="game-screen character-screen">
+          <img src="assets/gifs/bow.gif" class="scene-gif character-bow" alt="">
+          <div class="mode-title dark">CHOOSE A CHARACTER</div>
+          <div class="mode-sub dark-text">pick the one that feels most like you ♡</div>
+          <div class="character-grid">
+            <button class="character selected" data-character="heart"><span class="char-icon heart">♥</span><b>HEART</b><small>APPRECIATION +100</small></button>
+            <button class="character" data-character="bear"><span class="char-icon bear">♣</span><b>BEAR</b><small>CONFETTI +100</small></button>
+            <button class="character" data-character="hero"><span class="char-icon hero">♟</span><b>HERO</b><small>LUCK +100</small></button>
+          </div>
+          <button class="pixel-button pink" data-next>CHOOSE THIS ONE →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCRAPBOOK HUB -->
+    <section class="scene scrapbook-scene" data-scene="3">
+      <div class="storybook-page hub-page">
+        <div class="tape"></div>
+        <div class="page-heading">
+          <div><span>happy birthday, V!</span><small>a tiny scrapbook made just for you ♡</small></div>
+          <img src="assets/gifs/gift.gif" alt="">
+        </div>
+        <p class="page-note">choose a chapter. you can come back here anytime.</p>
+
+        <div class="chapter-grid">
+          <button class="chapter-card music" data-go="4">
+            <img src="assets/gifs/music.gif" alt="">
+            <span class="chapter-icon">♫</span><b>MUSIC</b><small>a little soundtrack</small>
+          </button>
+          <button class="chapter-card letter" data-go="5">
+            <img src="assets/gifs/envelope.gif" alt="">
+            <span class="chapter-icon">✉</span><b>LETTER</b><small>open when ready</small>
+          </button>
+          <button class="chapter-card wishes" data-go="6">
+            <img src="assets/gifs/heart.gif" alt="">
+            <span class="chapter-icon">♡</span><b>WISHES</b><small>a few things i wish for you</small>
+          </button>
+          <button class="chapter-card gift" data-go="7">
+            <img src="assets/gifs/gift.gif" alt="">
+            <span class="chapter-icon">🎁</span><b>GIFT ME</b><small>send your payment QR</small>
+          </button>
+        </div>
+
+        <div class="stickers"><span>✦</span><span>♡</span><span>✿</span></div>
+        <p class="hub-footer">no memories tab — just things you can enjoy right now ♡</p>
+      </div>
+    </section>
+
+    <!-- MUSIC -->
+    <section class="scene scrapbook-scene subscene" data-scene="4">
+      <div class="storybook-page content-page">
+        <div class="chapter-top"><button class="back-button" data-go="3">← BACK</button><span>CHAPTER 01 / MUSIC</span></div>
+        <div class="content-title"><img src="assets/gifs/music.gif" alt=""><div><span>little soundtrack ♫</span><small>songs for your birthday chapter</small></div></div>
+        <div class="music-card music-tab-card">
+          <img src="assets/gifs/music.gif" alt="" class="music-gif">
+          <div class="music-copy"><b>YOUR BIRTHDAY MIX</b><p>Press play and let the music follow you while you explore. The same song continues when you move between chapters.</p></div>
+          <div class="music-big-controls">
+            <button class="music-big-button" id="musicTabPlay" type="button" aria-label="Play or pause music">▶</button>
+            <div class="music-big-info"><div class="music-song-name">Birthday Song</div><input class="music-range" id="musicTabProgress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Music progress"><div class="music-time"><span id="musicTabCurrent">0:00</span><span id="musicTabDuration">0:00</span></div></div>
+          </div>
+        </div>
+        <div class="music-note" id="musicNote">♫ waiting for the first beat...</div>
+        <img src="assets/gifs/sparkle.gif" class="corner-gif" alt="">
+      </div>
+    </section>
+
+    <!-- LETTER -->
+    <section class="scene scrapbook-scene subscene" data-scene="5">
+      <div class="storybook-page content-page letter-page">
+        <div class="chapter-top"><button class="back-button" data-go="3">← BACK</button><span>CHAPTER 02 / LETTER</span></div>
+        <div class="letter-ribbon"><img src="assets/gifs/envelope.gif" alt=""><span>OPEN WHEN YOU'RE READY ♡</span><img src="assets/gifs/heart.gif" alt=""></div>
+        <h2>a little letter for you</h2>
+        <div class="letter-paper">
+          <p class="salutation">Dear birthday star,</p>
+          <p class="reveal">Cant belive it has already been a year since I met you.</p>
+          <p class="reveal">I still remember the first proper interaction we had. I was hungover at that time when you asked me if you could be exucesed sa time ni Teacher Van. That conversation was very idiotic to say the least but that was the start of a frendship if you could call it that.</p>
+          <p class="reveal">Looking back on everything, the time we spent together was truly special to me. I know my random, silly shenanigans pushed your patience to the limit sometimes, but you still kept up with me. Thank you for always being there and for sticking by my side through it all.</p>
+          <p class="reveal">Here’s to another year filled with even more unforgettable moments, hilarious drama, and silly shenanigans. Thank you for dealing with my stupidity. Have the happiest of birthdays!</p>
+          <p class="signature">Best wishes,<br>♡ some random guy you met at PatFit</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WISHES -->
+    <section class="scene scrapbook-scene subscene" data-scene="6">
+      <div class="storybook-page content-page">
+        <div class="chapter-top"><button class="back-button" data-go="3">← BACK</button><span>CHAPTER 03 / WISHES</span></div>
+        <div class="content-title"><img src="assets/gifs/heart.gif" alt=""><div><span>a few things i wish for you...</span><small>open each one like a little present</small></div></div>
+        <div class="wish-list">
+          <label><input type="checkbox" checked> sunny days with gentle breezes</label>
+<label><input type="checkbox" checked> tasty food and good company</label>
+<label><input type="checkbox" checked> unexpected little moments of joy</label>
+<label><input type="checkbox" checked> fresh starts and clean slates</label>
+<label><input type="checkbox" checked> fun adventures and exciting experiences</label>
+<label><input type="checkbox" checked> laughter shared with close friends</label>
+<label><input type="checkbox"> peaceful and a happy birthady</label>
+<label><input type="checkbox"> new adventures waiting around the corner</label>
+<label><input type="checkbox"> simple pleasures that brighten the day</label>
+<label><input type="checkbox"> a sense of calm and contentment</label>
+<label><input type="checkbox"> forgive and forget the troubles and tribulations</label>
+<label><input type="checkbox"> never give up and keep smiling</label>
+        </div>
+        <img src="assets/gifs/sparkle.gif" class="wish-sparkle" alt="">
+      </div>
+    </section>
+
+    <!-- GIFT / QR UPLOAD -->
+    <section class="scene scrapbook-scene subscene gift-scene" data-scene="7">
+      <div class="storybook-page content-page gift-page">
+        <div class="chapter-top"><button class="back-button" data-go="3">← BACK</button><span>CHAPTER 04 / GIFT</span></div>
+        <div class="gift-title"><img src="assets/gifs/gift.gif" alt=""><div><span>one last little thing...</span><small>if you'd like to send a birthday gift ♡</small></div><img src="assets/gifs/bow.gif" alt=""></div>
+        <p class="gift-copy">Show me your payment QR code here. It stays on this page until you choose to send it.</p>
+        <div class="qr-card">
+          <div class="qr-preview" id="qrPreview"><span class="qr-mark">QR</span><small>your QR code<br>will appear here</small></div>
+          <label class="upload-button" for="qrInput">+ ADD MY QR CODE</label>
+          <input id="qrInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+          <button class="send-button hidden" id="sendQrButton">SEND MY QR →</button>
+          <p class="qr-status" id="qrStatus">No QR uploaded yet.</p>
+        </div>
+        <img src="assets/gifs/confetti.gif" class="gift-confetti" alt="">
+        <p class="gift-note">♡ your QR is only submitted when you press “SEND MY QR”</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
